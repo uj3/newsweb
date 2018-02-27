@@ -1,0 +1,159 @@
+
+<head>
+  <title>News Website</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Google News Feed</h1>
+  <br>
+<div class="container">
+  <form>
+  <div class="form-group">
+  <label for="Text">Search News:</label>
+  <input type="text" class="form-control" id="text1">
+</div>
+	<button type="button" class="btn btn-success" onclick="ad()">Get Data</button>
+     
+	<br>
+	<br>
+	<label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="abc-news">ABC News
+    </label>
+	
+    <label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="bbc-news">BBC News
+    </label>
+	
+    <label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="bbc-sport">BBC Sport
+    </label>
+	
+	<label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="espn">ESPN
+    </label>
+	
+	<label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="business-insider">Business Insider
+    </label>
+	
+	<label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="buzzfeed">Buzzfeed
+    </label>
+	
+	<label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="cnbc">CNBC
+    </label>
+	
+	<label class="checkbox-inline">
+      <input type="checkbox" class="ch" value="cnn">CNN
+    </label>
+	
+  </form>
+</div>
+
+  
+</div>
+  
+<div id="gh">
+</div>
+
+<script>
+
+var data1,result1="";
+var URL1 = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=5f5944eebffd419293ae48c9b0c65b8b';
+
+function fetchDemo1() {
+  fetch(URL1).then(function(response1) {
+  data1=response1.json();
+  console.log(data1);
+  return data1;
+  })
+  .then(data1=>{for(let i=0;i<=data1.articles.length;i++)
+				{
+				result1+=`<h4><a href=${data1.articles[i].url} target="_blank">${data1.articles[i].title}</a></h4>
+					<img src=${data1.articles[i].urlToImage} alt="Not Found!!" width:"100px" height="100px">
+					<p>${data1.articles[i].description}</p>
+				`;
+				 document.getElementById('gh').innerHTML = result1;
+				 
+				 }})
+  .catch(function(error1) {  
+            console.log('Request failed', error1);  
+        });
+}
+
+fetchDemo1();
+
+
+
+
+function ad()
+{
+var vc=[],dc;
+dc=document.getElementById("text1").value;
+console.log(dc);
+
+var checks=document.getElementsByClassName('ch');
+for(i=0;i<8;i++)
+{
+if(checks[i].checked===true)
+vc.push(checks[i].value);
+}
+console.log(vc);
+
+//uj
+if(vc.length<1 || !dc)
+{
+if(vc.length<1 && !dc)
+alert("You have not selected any sources & Please write any keyword to search");
+else if(!dc)
+alert("Please write any keyword to search");
+else if(vc.length<1)
+alert("You have not selected any sources");
+}
+else
+{
+//uj
+var data,result="";
+var URL = `https://newsapi.org/v2/everything?sources=${vc}&q=${dc}&apiKey=5f5944eebffd419293ae48c9b0c65b8b`;
+
+function fetchDemo() {
+  fetch(URL).then(function(response) {
+  data=response.json();
+  console.log(data);
+  return data;
+  })
+  .then(data=>{if(data.articles.length>0){for(let i=0;i<=data.articles.length;i++)
+				{
+				result+=`<h4><a href=${data.articles[i].url} target="_blank">${data.articles[i].title}</a></h4>
+					<img src=${data.articles[i].urlToImage} alt="Not Found!!" width:"100px" height="100px">
+					<p>${data.articles[i].description}</p>
+				`;
+				 document.getElementById('gh').innerHTML = result;
+				 
+				}}
+				else
+				{ document.getElementById('gh').innerHTML="No Result Found";}})
+  .catch(function(error) {  
+            console.log('Request failed', error)  
+        });
+}
+
+fetchDemo();
+}
+
+//uj
+}
+//uj
+</script>
+
+</body>
+</html>
+
+
